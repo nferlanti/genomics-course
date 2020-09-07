@@ -1,0 +1,37 @@
+---
+title: "Lab1"
+author: "Nick Ferlanti"
+date: "8/24/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Exercise 1
+```{r}
+x<-3
+y<-15
+x+y
+x-y
+x*y
+x/y
+```
+##Exercise 2
+```{r}
+x<-2
+y<-3
+x^5 > y^4
+```
+##Exercise 3
+```{r}
+vec<-c(22,62,148,43,129)
+a<-sum(vec)
+vec/a
+```
+#Exercise 4
+```{r}
+nucleotides<- "A,T,C,G"
+sort(nucleotides)
+```
