@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 [Lab1](Lab1.html)
 
+[Lab2](Lab2.html)
+
 Application written in R [@RCoreTeam] using the Shiny framework [@Chang2015].
 
 # REFERENCES
