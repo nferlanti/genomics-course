@@ -3,6 +3,7 @@ title: "index"
 author: "Nicolas Ferlanti"
 date: "9/6/2020"
 output: html_document
+bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -10,3 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 [Lab1](Lab1.html)
+
+Application written in R [@RCoreTeam] using the Shiny framework [@Chang2015].
+
+# REFERENCES
