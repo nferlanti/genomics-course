@@ -370,18 +370,18 @@ summary {
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ───────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
 ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
 ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ──────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
+<div id="download-data" class="section level3">
+<h3>Download Data</h3>
 <pre class="r"><code>download.file(url = &quot;https://ndownloader.figshare.com/files/2292169&quot;,
               destfile = &quot;data/portal_data_joined.csv&quot;)</code></pre>
-<div id="load-data" class="section level3">
-<h3>Load Data</h3>
 <pre class="r"><code>surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
@@ -399,9 +399,6 @@ summary {
 ##   taxa = col_character(),
 ##   plot_type = col_character()
 ## )</code></pre>
-</div>
-<div id="view-data" class="section level3">
-<h3>View Data</h3>
 <pre class="r"><code>head(surveys)</code></pre>
 <pre><code>## # A tibble: 6 x 13
 ##   record_id month   day  year plot_id species_id sex   hindfoot_length weight
@@ -445,6 +442,112 @@ summary {
 ##   ..   taxa = col_character(),
 ##   ..   plot_type = col_character()
 ##   .. )</code></pre>
+</div>
+<div id="inspecting-data.frame-objects" class="section level3">
+<h3>Inspecting data.frame Objects</h3>
+<div id="size" class="section level5">
+<h5>Size</h5>
+<pre class="r"><code>dim(surveys)</code></pre>
+<pre><code>## [1] 34786    13</code></pre>
+<pre class="r"><code>nrow(surveys)</code></pre>
+<pre><code>## [1] 34786</code></pre>
+<pre class="r"><code>ncol(surveys)</code></pre>
+<pre><code>## [1] 13</code></pre>
+</div>
+<div id="content" class="section level5">
+<h5>Content</h5>
+<pre class="r"><code>head(surveys)</code></pre>
+<pre><code>## # A tibble: 6 x 13
+##   record_id month   day  year plot_id species_id sex   hindfoot_length weight
+##       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
+## 1         1     7    16  1977       2 NL         M                  32     NA
+## 2        72     8    19  1977       2 NL         M                  31     NA
+## 3       224     9    13  1977       2 NL         &lt;NA&gt;               NA     NA
+## 4       266    10    16  1977       2 NL         &lt;NA&gt;               NA     NA
+## 5       349    11    12  1977       2 NL         &lt;NA&gt;               NA     NA
+## 6       363    11    12  1977       2 NL         &lt;NA&gt;               NA     NA
+## # … with 4 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;,
+## #   plot_type &lt;chr&gt;</code></pre>
+<pre class="r"><code>tail(surveys)</code></pre>
+<pre><code>## # A tibble: 6 x 13
+##   record_id month   day  year plot_id species_id sex   hindfoot_length weight
+##       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
+## 1     26787     9    27  1997       7 PL         F                  21     16
+## 2     26966    10    25  1997       7 PL         M                  20     16
+## 3     27185    11    22  1997       7 PL         F                  21     22
+## 4     27792     5     2  1998       7 PL         F                  20      8
+## 5     28806    11    21  1998       7 PX         &lt;NA&gt;               NA     NA
+## 6     30986     7     1  2000       7 PX         &lt;NA&gt;               NA     NA
+## # … with 4 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;,
+## #   plot_type &lt;chr&gt;</code></pre>
+</div>
+<div id="names" class="section level5">
+<h5>Names</h5>
+<pre class="r"><code>names(surveys)</code></pre>
+<pre><code>##  [1] &quot;record_id&quot;       &quot;month&quot;           &quot;day&quot;             &quot;year&quot;           
+##  [5] &quot;plot_id&quot;         &quot;species_id&quot;      &quot;sex&quot;             &quot;hindfoot_length&quot;
+##  [9] &quot;weight&quot;          &quot;genus&quot;           &quot;species&quot;         &quot;taxa&quot;           
+## [13] &quot;plot_type&quot;</code></pre>
+</div>
+<div id="summary" class="section level5">
+<h5>Summary</h5>
+<pre class="r"><code>str(surveys)</code></pre>
+<pre><code>## tibble [34,786 × 13] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ record_id      : num [1:34786] 1 72 224 266 349 363 435 506 588 661 ...
+##  $ month          : num [1:34786] 7 8 9 10 11 11 12 1 2 3 ...
+##  $ day            : num [1:34786] 16 19 13 16 12 12 10 8 18 11 ...
+##  $ year           : num [1:34786] 1977 1977 1977 1977 1977 ...
+##  $ plot_id        : num [1:34786] 2 2 2 2 2 2 2 2 2 2 ...
+##  $ species_id     : chr [1:34786] &quot;NL&quot; &quot;NL&quot; &quot;NL&quot; &quot;NL&quot; ...
+##  $ sex            : chr [1:34786] &quot;M&quot; &quot;M&quot; NA NA ...
+##  $ hindfoot_length: num [1:34786] 32 31 NA NA NA NA NA NA NA NA ...
+##  $ weight         : num [1:34786] NA NA NA NA NA NA NA NA 218 NA ...
+##  $ genus          : chr [1:34786] &quot;Neotoma&quot; &quot;Neotoma&quot; &quot;Neotoma&quot; &quot;Neotoma&quot; ...
+##  $ species        : chr [1:34786] &quot;albigula&quot; &quot;albigula&quot; &quot;albigula&quot; &quot;albigula&quot; ...
+##  $ taxa           : chr [1:34786] &quot;Rodent&quot; &quot;Rodent&quot; &quot;Rodent&quot; &quot;Rodent&quot; ...
+##  $ plot_type      : chr [1:34786] &quot;Control&quot; &quot;Control&quot; &quot;Control&quot; &quot;Control&quot; ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   record_id = col_double(),
+##   ..   month = col_double(),
+##   ..   day = col_double(),
+##   ..   year = col_double(),
+##   ..   plot_id = col_double(),
+##   ..   species_id = col_character(),
+##   ..   sex = col_character(),
+##   ..   hindfoot_length = col_double(),
+##   ..   weight = col_double(),
+##   ..   genus = col_character(),
+##   ..   species = col_character(),
+##   ..   taxa = col_character(),
+##   ..   plot_type = col_character()
+##   .. )</code></pre>
+<pre class="r"><code>summary(surveys)</code></pre>
+<pre><code>##    record_id         month             day            year         plot_id     
+##  Min.   :    1   Min.   : 1.000   Min.   : 1.0   Min.   :1977   Min.   : 1.00  
+##  1st Qu.: 8964   1st Qu.: 4.000   1st Qu.: 9.0   1st Qu.:1984   1st Qu.: 5.00  
+##  Median :17762   Median : 6.000   Median :16.0   Median :1990   Median :11.00  
+##  Mean   :17804   Mean   : 6.474   Mean   :16.1   Mean   :1990   Mean   :11.34  
+##  3rd Qu.:26655   3rd Qu.:10.000   3rd Qu.:23.0   3rd Qu.:1997   3rd Qu.:17.00  
+##  Max.   :35548   Max.   :12.000   Max.   :31.0   Max.   :2002   Max.   :24.00  
+##                                                                                
+##   species_id            sex            hindfoot_length     weight      
+##  Length:34786       Length:34786       Min.   : 2.00   Min.   :  4.00  
+##  Class :character   Class :character   1st Qu.:21.00   1st Qu.: 20.00  
+##  Mode  :character   Mode  :character   Median :32.00   Median : 37.00  
+##                                        Mean   :29.29   Mean   : 42.67  
+##                                        3rd Qu.:36.00   3rd Qu.: 48.00  
+##                                        Max.   :70.00   Max.   :280.00  
+##                                        NA&#39;s   :3348    NA&#39;s   :2503    
+##     genus             species              taxa            plot_type        
+##  Length:34786       Length:34786       Length:34786       Length:34786      
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+## </code></pre>
+</div>
 </div>
 <div id="challenge-1" class="section level3">
 <h3>Challenge 1</h3>

@@ -13,22 +13,41 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
+### Download Data
 ```{r, eval=FALSE}
 download.file(url = "https://ndownloader.figshare.com/files/2292169",
               destfile = "data/portal_data_joined.csv")
 ```
-
-### Load Data
 ```{r}
 surveys <- read_csv("data/portal_data_joined.csv")
 
 ```
-
-### View Data
 ```{r}
 head(surveys)
 str(surveys)
 ```
+### Inspecting data.frame Objects
+##### Size
+```{r}
+dim(surveys)
+nrow(surveys)
+ncol(surveys)
+```
+##### Content
+```{r}
+head(surveys)
+tail(surveys)
+```
+##### Names
+```{r}
+names(surveys)
+```
+##### Summary
+```{r}
+str(surveys)
+summary(surveys)
+```
+
 ### Challenge 1  
 ```
 1. What is the class of the object surveys?  
@@ -206,7 +225,6 @@ missing_dates <- surveys[is.na(surveys$date), c("year", "month", "day")]
 
 head(missing_dates)
 ```
-
 
 
 
