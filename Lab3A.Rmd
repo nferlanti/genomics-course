@@ -1,0 +1,214 @@
+---
+title: "Untitled"
+author: "Nicolas Ferlanti"
+date: "9/13/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r, eval=FALSE}
+download.file(url = "https://ndownloader.figshare.com/files/2292169",
+              destfile = "data/portal_data_joined.csv")
+```
+
+### Load Data
+```{r}
+surveys <- read_csv("data/portal_data_joined.csv")
+
+```
+
+### View Data
+```{r}
+head(surveys)
+str(surveys)
+```
+### Challenge 1  
+```
+1. What is the class of the object surveys?  
+     A: class: data frame  
+2. How many rows and how many columns are in this object?  
+     A: 34786 rows, 13 columns  
+3. How many species have been recorded during these surveys?  
+     A: 48 species  
+```
+
+### Indexing and subsetting data frames
+```{r}
+# first element in the first column of the data frame (as a vector)
+surveys[1, 1]   
+# first element in the 6th column (as a vector)
+surveys[1, 6]   
+# first column of the data frame (as a vector)
+surveys[, 1]    
+# first column of the data frame (as a data.frame)
+surveys[1]      
+# first three elements in the 7th column (as a vector)
+surveys[1:3, 7] 
+# the 3rd row of the data frame (as a data.frame)
+surveys[3, ]    
+# equivalent to head_surveys <- head(surveys)
+head_surveys <- surveys[1:6, ] 
+```
+```{r}
+1:10
+10:1
+surveys[, -1]          # The whole data frame, except the first column
+surveys[-(7:34786), ] # Equivalent to head(surveys)
+```
+### Challenge 2
+```
+Question 1  
+```
+```{r}
+surveys_200 <- surveys[200, ]
+surveys_200
+tail(surveys)
+tail(surveys_200)
+```
+```
+Question 2 
+```
+```{r}
+n_rows <- nrow(surveys)
+surveys_last <- surveys[n_rows, ]
+surveys_last
+```
+```
+Question 3  
+```
+```{r}
+surveys_middle <- surveys[n_rows / 2, ]
+surveys_middle
+```
+```
+Question 4  
+```
+```{r}
+surveys_head <- surveys[-(7:n_rows), ]
+surveys_head
+```
+### Factors
+```{r}
+sex <- factor(c("male", "female", "female", "male"))
+levels(sex)
+nlevels(sex)
+```
+```{r}
+sex # current order
+```
+```{r}
+sex <- factor(sex, levels = c("male", "female"))
+sex # after re-ordering
+```
+### Converting factors
+```{r}
+as.character(sex)
+```
+```{r}
+year_fct <- factor(c(1990, 1983, 1977, 1998, 1990))
+as.numeric(year_fct)               # Wrong! And there is no warning...
+as.numeric(as.character(year_fct)) # Works...
+as.numeric(levels(year_fct))[year_fct]    # The recommended way.
+```
+### Renaming factors
+```{r}
+## bar plot of the number of females and males captured during the experiment:
+plot(as.factor(surveys$sex))
+```
+```{r}
+sex <- factor(surveys$sex)
+head(sex)
+```
+```{r}
+levels(sex)
+```
+```{r}
+levels(sex)[1] <- "undetermined"
+levels(sex)
+```
+```{r}
+head(sex)
+```
+### Challenge 3
+```{r}
+levels(sex)[2:3] <- c("female", "male")
+```
+```{r}
+sex <- factor(sex, levels = c("female", "male", "undetermined"))
+plot(sex)
+```
+### Using stringsAsFactors =  FALSE
+```{r}
+## Compare the difference between our data read as `factor` vs `character`.
+surveys <- read.csv("data/portal_data_joined.csv", stringsAsFactors = TRUE)
+str(surveys)
+```
+```{r}
+surveys <- read.csv("data/portal_data_joined.csv", stringsAsFactors = FALSE)
+str(surveys)
+```
+```{r}
+## Convert the column "plot_type" into a factor
+surveys$plot_type <- factor(surveys$plot_type)
+```
+### Challenge 4
+```{r}
+animal_data <- data.frame(
+          animal = c("dog", "cat", "sea cucumber", "sea urchin"),
+          feel = c("fluffy", "furry", "squishy", "spiny"),
+          weight = c(45, 8, 1.1, 0.8)
+          )
+```
+```{r}
+country_climate <- data.frame(
+       country = c("Canada", "Panama", "South Africa", "Australia"),
+       climate = c("cold", "hot", "temperate", "hot/temperate"),
+       temperature = c(10, 30, 18, 15),
+       northern_hemisphere = c(TRUE, TRUE, FALSE, FALSE),
+       has_kangaroo = c(FALSE, FALSE, FALSE, TRUE)
+       )
+```
+### Formatting Dates
+```{r}
+str(surveys)
+```
+```{r}
+library(lubridate)
+my_date <- ymd("2015-01-01")
+str(my_date)
+```
+```{r}
+# sep indicates the character to use to separate each component
+my_date <- ymd(paste("2015", "1", "1", sep = "-")) 
+str(my_date)
+```
+
+```{r}
+surveys$date <- ymd(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
+```
+```{r}
+str(surveys) # notice the new column, with 'date' as the class
+
+```
+```{r}
+summary(surveys$date)
+
+```
+```{r}
+missing_dates <- surveys[is.na(surveys$date), c("year", "month", "day")]
+
+head(missing_dates)
+```
+
+
+
+
+
+
