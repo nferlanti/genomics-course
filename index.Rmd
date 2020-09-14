@@ -16,3 +16,5 @@ knitr::opts_chunk$set(echo = TRUE)
 [Lab3A](Lab3A.html)
 
 [Lab3B](Lab3B.html)
+
+
