@@ -3,7 +3,6 @@ title: "Evolutionary Genomics and Bioinformatics 2020"
 author: "Nicolas Ferlanti"
 date: "9/6/2020"
 output: html_document
-bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
