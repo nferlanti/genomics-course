@@ -1,0 +1,192 @@
+---
+title: "Lab4"
+author: "Nicolas Ferlanti"
+date: "9/20/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(tidyverse)
+```
+
+```{r}
+report_03_11_2020 <-   read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-11-2020.csv")) %>%
+  rename(Country_Region = "Country/Region", Province_State = "Province/State")
+str(report_03_11_2020)
+view(report_03_11_2020)
+```
+```{r}
+library(DT)
+datatable(report_03_11_2020)
+```
+
+### Exercise 1
+#### ***1**
+```{r}
+report_03_13_2020 <-   read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-13-2020.csv")) %>%
+  rename(Country_Region = "Country/Region", Province_State = "Province/State")
+str(report_03_13_2020)
+view(report_03_13_2020)
+```
+```{r}
+report_09_13_2020 <-   read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/09-13-2020.csv")) %>%
+  rename(Country_Region = "Country_Region", Province_State = "Province_State")
+str(report_09_13_2020)
+view(report_09_13_2020)
+```
+#### ***2**
+```{r}
+report_03_13_2020 %>% 
+  group_by(Country_Region) %>% 
+summarize(Deaths = sum(Deaths))
+```
+```{r}
+report_09_13_2020 %>% 
+  group_by(Country_Region) %>% 
+summarize(Deaths = sum(Deaths))
+```
+#### ***3**
+```{r}
+report_03_13_2020 %>% 
+  filter(Country_Region == "US") %>% 
+  group_by(Province_State) %>% 
+  summarize(cases = sum(Confirmed))
+```
+```{r}
+report_09_13_2020 %>% 
+  filter(Country_Region == "US") %>% 
+  group_by(Province_State) %>% 
+  summarize(cases = sum(Confirmed))
+```
+
+#### **4**   
+```{r}
+top10deaths0313 <- report_03_13_2020 %>% 
+  group_by(Country_Region) %>% 
+  summarize(Deaths = sum(Deaths)) %>% 
+  arrange(desc(Deaths)) %>% 
+  slice_max(Deaths, n = (10))
+top10deaths0913 <- report_09_13_2020 %>% 
+  group_by(Country_Region) %>% 
+  summarize(Deaths = sum(Deaths)) %>% 
+  arrange(desc(Deaths)) %>% 
+  slice_max(Deaths, n = (10))
+```
+```{r}
+top10deaths0313
+```
+```{r}
+top10deaths0913
+```
+### Exercise Part 2
+#### **5**
+```{r}
+top10cases0313 <- report_03_13_2020 %>% 
+  group_by(Country_Region) %>% 
+  summarize(cases = sum(Confirmed)) %>% 
+  arrange(desc(cases)) %>% 
+  slice_max(cases, n = (10))
+top10cases0913 <- report_09_13_2020 %>% 
+  group_by(Country_Region) %>% 
+  summarize(cases = sum(Confirmed)) %>% 
+  arrange(desc(cases)) %>% 
+  slice_max(cases, n = (10))
+top10cases0313
+top10cases0913
+```
+### Top 10 Countries with the Most Confirmed Cases as of 03/13/2020
+```{r}
+ggplot(data = top10cases0313, aes(x = Country_Region, y = cases))  +
+  geom_point()
+```
+
+### Top 10 Countries with the Most Confirmed Cases as of 09/13/2020
+```{r}
+ggplot(data = top10cases0913, aes(x = Country_Region, y = cases))  +
+  geom_point()
+```
+
+### Top 10 Countries with the Most Deaths as of 03/13/2020
+```{r}
+ggplot(data = top10deaths0313, aes(x = Country_Region, y = Deaths))  +
+  geom_point()
+```
+
+### Top 10 Countries with the Most Deaths as of 09/13/2020
+```{r}
+ggplot(data = top10deaths0913, aes(x = Country_Region, y = Deaths))  +
+  geom_point()
+```
+
+##### **6**
+```{r}
+top10casesUS0313 <- report_03_13_2020 %>% 
+  filter(Country_Region == "US") %>% 
+  group_by(Province_State) %>% 
+  summarize(cases =sum(Confirmed)) %>% 
+  arrange(desc(cases)) %>% 
+  slice_max(cases, n =(10))
+top10casesUS0313
+
+top10casesUS0913 <- report_09_13_2020 %>% 
+  filter(Country_Region == "US") %>% 
+  group_by(Province_State) %>% 
+  summarize(cases =sum(Confirmed)) %>% 
+  arrange(desc(cases)) %>% 
+  slice_max(cases, n =(10))
+top10casesUS0913
+
+top10deathsUS0313 <- report_03_13_2020 %>% 
+  filter(Country_Region == "US") %>% 
+  group_by(Province_State) %>% 
+  summarize(Confirmed = sum(Confirmed), Deaths = sum(Deaths), min_deaths = min(Deaths)) %>% 
+  arrange(desc(min_deaths)) %>% 
+  slice(1:10)
+top10deathsUS0313
+
+top10deathsUS0913 <- report_09_13_2020 %>% 
+  filter(Country_Region == "US") %>% 
+  group_by(Province_State) %>% 
+  summarize(Deaths = sum(Deaths)) %>% 
+  arrange(desc(Deaths)) %>% 
+  slice_max(Deaths, n = (10))
+top10deathsUS0913
+```
+
+### Top 10 US States with Most Confirmed Cases as of 03/13/2020
+```{r}
+  ggplot(data = top10casesUS0313,  aes(x = cases,  y = Province_State)) + 
+    geom_bar(stat = 'identity') 
+```
+
+### Top 10 US States with Most Confirmed Cases as of 09/13/2020
+```{r}
+  ggplot(data = top10casesUS0913,  aes(x = cases,  y = Province_State)) + 
+    geom_bar(stat = 'identity') 
+```
+
+### Top 10 US States with Most Deaths as of 03/13/2020
+```{r}
+  ggplot(data = top10deathsUS0313,  aes(x = Deaths,  y = Province_State)) + 
+    geom_bar(stat = 'identity') 
+```
+
+### Top 10 US States with Most Deaths as of 09/13/2020
+```{r}
+  ggplot(data = top10deathsUS0913,  aes(x = Deaths,  y = Province_State)) + 
+    geom_bar(stat = 'identity') 
+```
+
+
+
+
+
+
+
+
+
+
+
