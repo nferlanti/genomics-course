@@ -70,7 +70,17 @@ ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
 ```
 ### Challenge 3
 ```{r}
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+vio <- ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
     geom_violin()
+vio
 ```
+```{r}
+vio + scale_y_log10()
+```
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = hindfoot_length)) +
+    geom_boxplot(alpha = 0) +
+    geom_jitter(alpha = 0.3, color = "tomato")
+```
+
 
