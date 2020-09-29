@@ -1,5 +1,5 @@
 ---
-title: "Lab4a"
+title: "Lab4B"
 author: "Nicolas Ferlanti"
 date: "9/21/2020"
 output: html_document
@@ -80,14 +80,9 @@ vio
 ```{r}
 vio + scale_y_log10()
 ```
-```{r}
-hindfootplot <- ggplot(data = surveys_complete, mapping = aes(x = species_id, y = hindfoot_length)) +
-    geom_boxplot(alpha = 0) +
-    geom_jitter(alpha = 0.3, color = "tomato")
-```
-```{r}
 
-```
+
+
 
 
 
