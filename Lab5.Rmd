@@ -1,5 +1,5 @@
 ---
-title: "Lab5"
+title: "Lab5 + lab5Extra"
 author: "Nicolas Ferlanti"
 date: "9/28/2020"
 output: html_document
@@ -372,3 +372,119 @@ time_series_long_joined %>%
 
 
 
+### Lab 5 Extra
+### Graphic Output
+```{r}
+# Plot graph to a pdf outputfile
+pdf("images/time_series_example_plot.pdf", width=6, height=3)
+time_series_long_joined %>% 
+  group_by(Country_Region,Date) %>% 
+  summarise_at(c("Confirmed", "Deaths"), sum) %>% 
+  filter (Country_Region == "US") %>% 
+    ggplot(aes(x = Date,  y = Deaths)) + 
+    geom_point() +
+    geom_line() +
+    ggtitle("US COVID-19 Deaths")
+dev.off()
+```
+
+
+```{r}
+# Plot graph to a png outputfile
+ppi <- 300
+png("images/time_series_example_plot.png", width=6*ppi, height=6*ppi, res=ppi)
+time_series_long_joined %>% 
+  group_by(Country_Region,Date) %>% 
+  summarise_at(c("Confirmed", "Deaths"), sum) %>% 
+  filter (Country_Region == "US") %>% 
+    ggplot(aes(x = Date,  y = Deaths)) + 
+    geom_point() +
+    geom_line() +
+    ggtitle("US COVID-19 Deaths")
+dev.off()
+```
+
+### RMarkdown Loading Images
+```{r}
+# This is the RMarkdown style for inserting images
+# Your image must be in your working directory
+# This command is put OUTSIDE the r code chunk
+```
+![US COVID-19 Deaths](images/time_series_example_plot.png)
+
+
+```{r}
+# This is an alternative way using html. 
+# Remember that it must be in your working directory or you will need to specify the full path.
+# The html is put OUTSIDE the r code chunk.
+```
+<img src="images/time_series_example_plot.png" alt="US COVID-19 Deaths" style="width: 600px;"/>
+
+### Interactive Graphs
+```{r}
+# Version 2
+library(plotly)
+ggplotly(
+  time_series_long_joined %>% 
+    group_by(Country_Region,Date) %>% 
+    summarise_at(c("Confirmed", "Deaths"), sum) %>% 
+    filter (Country_Region == "US") %>% 
+    ggplot(aes(x = Date,  y = Deaths)) + 
+      geom_point() +
+      geom_line() +
+      ggtitle("US COVID-19 Deaths")
+ )
+```
+
+
+```{r}
+library(plotly)
+# Subset the time series data to include US deaths
+US_deaths <- time_series_long_joined %>% 
+    group_by(Country_Region,Date) %>% 
+    summarise_at(c("Confirmed", "Deaths"), sum) %>% 
+    filter (Country_Region == "US")
+# Collect the layers for agraph of the US time series data for covid deaths
+ p <- ggplot(data = US_deaths, aes(x = Date,  y = Deaths)) + 
+        geom_point() +
+        geom_line() +
+        ggtitle("US COVID-19 Deaths")
+# Plot the graph using ggplotly
+ggplotly(p)
+```
+
+
+#### Animated Graphs with gganimate
+```{r}
+library(gganimate)
+library(transformr)
+theme_set(theme_bw())
+```
+```{r}
+data_time <- time_series_long_joined %>% 
+    group_by(Country_Region,Date) %>% 
+    summarise_at(c("Confirmed", "Deaths"), sum) %>% 
+    filter (Country_Region %in% c("China","Korea, South","Japan","Italy","US")) 
+p <- ggplot(data_time, aes(x = Date,  y = Confirmed, color = Country_Region)) + 
+      geom_point() +
+      geom_line() +
+      ggtitle("Confirmed COVID-19 Cases") +
+      geom_point(aes(group = seq_along(Date))) +
+      transition_reveal(Date) 
+animate(p,renderer = gifski_renderer(), end_pause = 15)
+```
+
+
+```{r}
+data_time <- time_series_long_joined %>% 
+    group_by(Country_Region,Date) %>% 
+    summarise_at(c("Confirmed", "Deaths"), sum) %>% 
+    filter (Country_Region %in% c("China","Korea, South","Japan","Italy","US")) 
+p <- ggplot(data_time, aes(x = Date,  y = Confirmed, color = Country_Region)) + 
+      geom_point() +
+      geom_line() +
+      ggtitle("Confirmed COVID-19 Cases") +
+      geom_point(aes(group = seq_along(Date))) +
+      transition_reveal(Date) 
+anim_save("deaths_5_countries.gif", p,renderer = gifski_renderer(), end_pause = 15)
+```
