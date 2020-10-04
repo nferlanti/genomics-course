@@ -350,7 +350,8 @@ view(timeUS)
 timeUS %>% 
   ggplot(aes(x = Date, y = Confirmed)) +
   geom_point(size = 0.1) +
-  facet_wrap(~Province_State, ncol = 5)
+  facet_wrap(vars(Province_State), ncol = 5) +
+  labs(title = "Confirmed Cases per US State/Province Over Time", x = "Date", y = "Confirmed Cases")
 ```
 
 
