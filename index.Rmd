@@ -21,9 +21,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 [Lab4B](Lab4B.html)
 
+[Lab5 Finished DC Tutorial](Lab-5-Finished-DC-Tutorial.html)
+
 [Lab5 + Lab5 Extra](Lab5.html)
 
-[Lab5 Finished DC Tutorial](Lab-5-Finished-DC-Tutorial.html)
+
 
 
 
